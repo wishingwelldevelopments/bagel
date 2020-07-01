@@ -1,0 +1,76 @@
+#!/bin/bash
+# Bagel 4.9
+
+if [ "$1" == "-e" ]; then
+	if [ ! -f ~/bagel/bagel.gpg ]; then
+		echo "Bagel Not Found!"
+	else
+		echo -n "Enter Your Bagel Key : "
+		read -s editpass
+		echo ""
+		hash=$(printf | base64 -w 0)
+		confirm=$(echo $hash | tail -c4)
+		if [ "$confirm" == "TI=" ]; then
+			cp ~/bagel/bagel.gpg /tmp/
+			contents=$(gpg --batch --passphrase $hash -d /tmp/bagel.gpg 2>/dev/null)
+			echo "$contents" > /tmp/bagel.tmp
+			vim /tmp/bagel.tmp 
+			gpg --batch --passphrase $hash -c /tmp/bagel.tmp
+			mv /tmp/bagel.tmp.gpg ~/bagel/bagel.gpg
+			rm -rf /tmp/bagel.*
+		else
+			echo "Stale Bagel!"
+		fi
+	fi
+elif [ "$1" == "-c" ]; then
+	sshfs host:directory ~/bagel
+elif [ "$1" == "build" ]; then
+	cp -rv ~/bagel/rice/dwm-6.2 ~/.config/
+	cp -rv ~/bagel/rice/vimrc ~/
+	cp -rv ~/bagel/rice/bashrc ~/
+elif [ "$1" == "-g" ]; then
+	PS3="Select a Password : "
+	select slpa in $(pwgen -c 15 -y 5)
+	do
+		echo $slpa | xclip -sel clip
+		echo "Selected Password Copied!"
+		break
+	done	
+elif [ "$1" == "-h" ]; then
+	echo ""
+	echo "Welcome to bagel V4.9"
+	echo "--------------------------------------------------"
+	echo "Usage : bagel [OPTION]"
+	echo " -h		Displays This Help and Version Info"
+	echo " -e		Edits the Password List"
+	echo " -c		Connects to bagel host"
+	echo " -l		Lists bagel note list"
+	echo " -g		Generates New Secure Password"
+	echo ""
+else
+	if [ ! -f ~/bagel/bagel.gpg ]; then
+		echo "Bagel Not Found!"
+	else
+		echo -n "Enter Your Bagel Key : "
+		read -s pass
+		hash=$(printf | base64 -w 0)
+		confirm=$(echo $hash | tail -c4)
+		if [ "$confirm" == "TI=" ]; then
+			file=$(gpg --batch --passphrase $hash -d ~/bagel/bagel.gpg 2>/dev/null)
+			selection=$(echo "$file" | sed 's!.[^:]*$!!' | fzy)
+			if [[ $selection != ""  ]]; then
+				password=$(echo "$file" | grep $selection: | sed 's/.*://')
+				echo $password | xclip -sel clip
+				echo "Copied! You Have 10 Seconds"
+				sleep 10s
+				echo "" | xclip -sel clip
+				echo "Good Day Sir!"
+			else
+				echo "Come Back Later When You Are Not So Busy."
+			fi
+		else
+			echo ""
+			echo "Stale Bagel"
+		fi
+	fi
+fi
