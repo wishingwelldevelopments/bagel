@@ -1,0 +1,54 @@
+syntax off
+set number relativenumber
+set cursorline
+
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'junegunn/fzf'
+Plugin 'webdevel/tabulous'
+Plugin 'junegunn/fzf.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+let g:UltiSnipsExpandTrigger="<tab>"
+
+call vundle#end()
+filetype plugin indent on
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.3 } }
+
+
+set ttimeoutlen=0
+set showtabline=2
+set nowrap
+set hidden
+
+let mapleader = ";"
+nnoremap <leader>m :Files<CR>
+nnoremap <leader>f :tabm 0<CR>
+nnoremap <leader>n :Rg<CR>
+nnoremap <leader>j :BLines<CR>
+nnoremap <leader>w :wq<CR>
+nnoremap <leader>d :1,$bd!<CR>
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+vnoremap < <gv
+vnoremap > >gv
+:set listchars=tab:\|\ 
+:set list
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
+set statusline+=%F
+
+let tabulousCloseStr = ''
+let tabulousLabelNameOptions = ''
+highlight TabLineFill ctermfg=Black ctermbg=Black
