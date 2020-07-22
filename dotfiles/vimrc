@@ -1,0 +1,61 @@
+syntax enable
+set number relativenumber
+set cursorline
+"	set t_Co=256
+set termguicolors
+colorscheme iceberg
+
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'junegunn/fzf'
+Plugin 'webdevel/tabulous'
+Plugin 'leafoftree/vim-vue-plugin'
+Plugin 'junegunn/fzf.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'airblade/vim-gitgutter'
+
+let g:UltiSnipsExpandTrigger="<tab>"
+
+call vundle#end()
+filetype plugin indent on
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
+
+set ttimeoutlen=0
+set showtabline=2
+set nowrap
+set hidden
+fo
+let mapleader = ";"
+nnoremap <leader>n :Files<CR>
+nnoremap <leader>j :res +5<CR>
+nnoremap <leader>k :res -5<CR>
+nnoremap <leader>f :Rg<CR>
+nnoremap <leader>q :bd<CR>
+nnoremap <leader>m :Buffers<CR>
+nnoremap <leader>g :GitGutterPreviewHunk<CR>
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+let g:fzf_buffers_jump = 1
+
+vnoremap < <gv
+vnoremap > >gv
+:set listchars=tab:\|\ 
+:set list
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
+
+let tabulousCloseStr = ''
+let tabulousLabelNameOptions = ''
+highlight TabLineFill ctermfg=Black ctermbg=Black
