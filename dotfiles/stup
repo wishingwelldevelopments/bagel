@@ -1,9 +1,0 @@
-dwm & 
-xrandr 
-feh --image-bg "#161821" --bg-center ~/Downloads/walld.png
-numlockx on
-
-while(true)do :
-    xsetroot -name "$(echo " " `date +"%I:%M %p %d %b (%m) %Y"` "" || exit 1)"
-    sleep 60s
-done

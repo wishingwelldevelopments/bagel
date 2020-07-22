@@ -1,2 +1,0 @@
-the_silver_searcher
-vifm - selction is t

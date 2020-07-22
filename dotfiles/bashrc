@@ -1,5 +1,0 @@
-alias todo="cat ~/.todo.list"
-alias eto="vim ~/.todo.list"
-alias l="ls -all"
-alias youa="youtube-dl --extract-audio --audio-format mp3"
-export PS1="[\u@\h:\W](\@) # "
