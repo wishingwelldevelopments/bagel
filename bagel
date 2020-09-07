@@ -1,0 +1,61 @@
+#!/bin/bash
+
+if [ "$1" == "-e" ]; then
+	vim ~/.config/bagel/streams.bgl
+elif [ "$1" == "-b" ]; then
+	bookmark=$(cat ~/.config/bagel/bookmarks.bgl | dmenu)
+	if [ ! -z "${bookmark}" ]; then
+		bm=$(echo $bookmark | cut -d "(" -f2 | cut -d ")" -f1)
+		google-chrome-stable $bm
+	else
+		echo "No Bookmark Selected :("
+	fi
+elif [ "$1" == "-p" ]; then
+	if [ ! -f ~/.config/bagel/bagel.new ]; then
+		echo "Bagel Not Found!"
+	else
+		vim ~/.config/bagel/bagel.new
+	fi
+elif [ "$1" == "build" ]; then
+    wget "https://github.com/wishingwelldevelopments/bagel/raw/master/foo.tar.gz" -O /tmp/foo.tar.gz
+    cd /tmp
+    tar -xzvf foo.tar.gz
+    cd foo
+    cp -rv bashrc ~/.bashrc
+    cp -rv dwm-6.2 ~/.config/
+    cp -rv nvim ~/.config/
+    cp -rv stup /usr/local/bin/
+    cp -rv walld.png ~/Downloads/
+    mkdir ~/.config/bagel
+    cp -rv bagel-conf/* ~/.config/bagel
+elif [ "$1" == "-g" ]; then
+	PS3="Select a Password : "
+	select slpa in $(pwgen -c 15 -y 5)
+	do
+		echo $slpa | xclip -sel clip
+		echo "Selected Password Copied!"
+		break
+	done	
+elif [ "$1" == "-h" ]; then
+	echo ""
+	echo "Welcome to bagel V4.9"
+	echo "--------------------------------------------------"
+	echo "Usage : bagel [OPTION]"
+	echo " -h		Displays This Help and Version Info"
+	echo " -e		Edits the Password List"
+	echo " -c		Connects to bagel host"
+	echo " -l		Lists bagel note list"
+	echo " -g		Generates New Secure Password"
+	echo ""
+else
+	stream=$(cat ~/.config/bagel/streams.bgl | fzy)
+	if [ ! -z "${stream}" ]; then
+		echo $stream
+		file=$(grep "$stream" ~/.config/bagel/streams.bgl; grep -v "$stream" ~/.config/bagel/streams.bgl)
+		echo "$file" > ~/.config/bagel/streams.bgl
+		url=$(echo $stream | cut -d "(" -f2 | cut -d ")" -f1)
+		mpv --no-video --shuffle $url
+	else
+		echo "No Tunes Selected :("
+	fi
+fi
